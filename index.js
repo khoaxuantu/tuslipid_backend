@@ -1,10 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+// const guestbook = require('./routers/guestbook.js');
+const oauth = require('./routers/oauth');
+
 const app = express();
 const port = 3001;
 
-const guestbook = require("./services/guestbook_api");
-
-app.use(express.json())
+// app.use(cors);
+app.use(bodyParser.json())
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -12,17 +17,8 @@ app.use(function (req, res, next) {
     next();
   });
 
-app.get('/guestbook/list/:startId', (req, res) => {
-    guestbook.getGuestbookContent(req.params.startId)
-    .then(response => {
-        console.log(response);
-        res.status(200).send(response);
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(500).send(error);
-    })
-})
+// app.use("/guestbook", guestbook);
+app.use("/oauth", oauth);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}`);

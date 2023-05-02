@@ -18,6 +18,22 @@ async function getGuestbookContent(startId) {
     }
 }
 
+async function addGuestbook(comment) {
+    try {
+        const newComment = await PG.sql`
+            INSERT INTO
+                guestbook
+            VALUES
+                (${comment}, CURRENT_TIMESTAMP)
+        `;
+        return newComment;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    getGuestbookContent
+    getGuestbookContent,
+    addGuestbook
 }
