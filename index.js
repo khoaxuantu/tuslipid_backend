@@ -8,7 +8,7 @@ const oauth = require('./routers/oauth');
 const app = express();
 const port = 3001;
 
-// app.use(cors);
+app.use(cors());
 app.use(bodyParser.json())
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
