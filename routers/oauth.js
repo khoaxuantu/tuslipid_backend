@@ -12,6 +12,11 @@ const {
     GOOGLE_CLIENT_SECRET 
 } = process.env;
 
+const fetchUserAPI = {
+    "google": "https://www.googleapis.com/oauth2/v3/userinfo",
+    "github": "https://api.github.com/user"
+}
+
 const oAuth2Client = new OAuth2Client(
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -39,28 +44,42 @@ router.get('/github/access_token', async (req, res) => {
     }
 });
 
-router.get('/github/user', async (req, res) => {
-    req.get("Authorization"); // Bearer ACCESSTOKEN
-    await fetch("https://api.github.com/user", {
-        method: "GET",
-        headers: {
-            "Authorization": req.get("Authorization")
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        res.json(data);
-    })
-});
-
 router.get('/google/access_token', async (req, res) => {
     console.log(req.query.code);
 
-    const { tokens } = await oAuth2Client.getToken(req.query.code);
-    console.log(tokens);
+    try {
+        const { tokens } = await oAuth2Client.getToken(req.query.code);
+        console.log(tokens);
+        
+        res.json(tokens);
+    } catch (error) {
+        console.log(error);
+    }
+})
 
-    res.json(tokens);
+router.get(`/:thirdParty/user`, async (req, res) => {
+    req.get("Authorization");
+    try {
+        await fetch(fetchUserAPI[req.params.thirdParty], {
+            method: "GET",
+            headers: {
+                "Authorization": req.get("Authorization")
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (req.params.thirdParty === "github") {
+                res.cookie("user_id", data.id, {
+                    httpOnly: true,
+                    secure: true,
+                })
+            }
+            res.json(data);
+        })
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 module.exports = router;
