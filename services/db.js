@@ -6,12 +6,13 @@ const URL = `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?options=
 
 const sql = postgres(URL, { ssl: 'require' });
 
-async function getPgVersion() {
-  const result = await sql`select version()`;
-  console.log(result);
-}
+// async function getPgVersion() {
+//   const result = await sql`select version()`;
+//   console.log(result);
+// }
 
-getPgVersion();
+// getPgVersion();
+console.log(`Connect to ${PGDATABASE}`);
 
 module.exports = {
   sql

@@ -4,7 +4,6 @@ const { OAuth2Client, } = require('google-auth-library');
 const fetch = (...args) =>
     import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-require('dotenv').config();
 const { 
     GITHUB_CLIENT_ID, 
     GITHUB_CLIENT_SECRET,
@@ -36,7 +35,7 @@ router.get('/github/access_token', async (req, res) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             res.json(data);
         })
     } catch (error) {
@@ -49,7 +48,7 @@ router.get('/google/access_token', async (req, res) => {
 
     try {
         const { tokens } = await oAuth2Client.getToken(req.query.code);
-        console.log(tokens);
+        // console.log(tokens);
         
         res.json(tokens);
     } catch (error) {
@@ -68,13 +67,7 @@ router.get(`/:thirdParty/user`, async (req, res) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            if (req.params.thirdParty === "github") {
-                res.cookie("user_id", data.id, {
-                    httpOnly: true,
-                    secure: true,
-                })
-            }
+            console.log(data.login === undefined ? data.name : data.login);
             res.json(data);
         })
     } catch (error) {

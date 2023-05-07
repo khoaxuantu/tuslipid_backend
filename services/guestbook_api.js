@@ -22,7 +22,7 @@ async function addGuestbook(comment) {
     try {
         const newComment = await PG.sql`
             INSERT INTO
-                guestbook
+                guestbook (guest, add_time)
             VALUES
                 (${comment}, CURRENT_TIMESTAMP)
         `;
