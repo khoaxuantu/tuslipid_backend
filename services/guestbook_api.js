@@ -10,7 +10,7 @@ async function getGuestbookContent(startId) {
             ORDER BY
                 add_time DESC
             OFFSET ${startId} ROWS
-            FETCH FIRST 20 ROWS ONLY
+            FETCH FIRST 40 ROWS ONLY
         `;
         return list;
     } catch (error) {
@@ -33,7 +33,22 @@ async function addGuestbook(comment) {
     }
 }
 
+async function getTotalGuests() {
+    try {
+        const totalGuests = await PG.sql`
+            SELECT
+                COUNT(id)
+            FROM
+                guestbook
+        `;
+        return totalGuests;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getGuestbookContent,
-    addGuestbook
+    addGuestbook,
+    getTotalGuests
 }

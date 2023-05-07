@@ -4,12 +4,10 @@ const { OAuth2Client, } = require('google-auth-library');
 const fetch = (...args) =>
     import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-const { 
-    GITHUB_CLIENT_ID, 
-    GITHUB_CLIENT_SECRET,
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET 
-} = process.env;
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const fetchUserAPI = {
     "google": "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -49,7 +47,6 @@ router.get('/google/access_token', async (req, res) => {
     try {
         const { tokens } = await oAuth2Client.getToken(req.query.code);
         // console.log(tokens);
-        
         res.json(tokens);
     } catch (error) {
         console.log(error);
@@ -67,7 +64,7 @@ router.get(`/:thirdParty/user`, async (req, res) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data.login === undefined ? data.name : data.login);
+            // console.log(data.login === undefined ? data.name : data.login);
             res.json(data);
         })
     } catch (error) {
