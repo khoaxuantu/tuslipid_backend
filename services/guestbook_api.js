@@ -33,7 +33,7 @@ async function addGuestbook(comment) {
     }
 }
 
-async function getTotalGuests() {
+async function getTotalRecords() {
     try {
         const totalGuests = await PG.sql`
             SELECT
@@ -50,5 +50,5 @@ async function getTotalGuests() {
 module.exports = {
     getGuestbookContent,
     addGuestbook,
-    getTotalGuests
+    getTotalRecords
 }

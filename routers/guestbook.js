@@ -14,7 +14,7 @@ router.get('/list/:startId', (req, res) => {
     .catch(error => {
         console.log(`-- GET 500: /guestbook/list`);
         res.status(500).send(error);
-    })
+    });
 });
 
 router.post('/add', (req, res) => {
@@ -34,11 +34,11 @@ router.post('/add', (req, res) => {
     .catch(error => {
         console.log(`-- GET 500: /guestbook/add`);
         res.status(500).send(error);
-    })
+    });
 });
 
-router.get('/totalGuests', (req, res) => {
-    guestbook.getTotalGuests()
+router.get('/totalRecords', (req, res) => {
+    guestbook.getTotalRecords()
     .then(response => {
         console.log("-- GET 200: /guestbook/totalGuests | total guest")
         res.status(200).send(response);
@@ -46,7 +46,7 @@ router.get('/totalGuests', (req, res) => {
     .catch(error => {
         console.log("-- GET 500: /guestbook/totalGuests")
         res.status(500).send(error);
-    })
+    });
 });
 
 module.exports = router;
