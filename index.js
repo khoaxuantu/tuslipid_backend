@@ -11,7 +11,9 @@ const app = express();
 const port = parseInt(process.env.PORT) || 3001;
 
 app.use(cors({
-  origin: "https://xuankhoatu.com"
+  origin: "https://xuankhoatu.com",
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Access-Control-Allow-Headers,Authorization"
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
