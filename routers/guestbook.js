@@ -20,7 +20,7 @@ router.get('/list/:startId', (req, res) => {
 router.post('/add', (req, res) => {
     const content = req.body;
     if (content.message.length > maxMsgLength) {
-        console.log(`-- GET 400: /guestbook/add`)
+        console.log(`-- POST 400: /guestbook/add`)
         res.status(400).send({
             message: "The submitted message exceeds the maximum character"
         })
@@ -28,11 +28,11 @@ router.post('/add', (req, res) => {
 
     guestbook.addGuestbook(content)
     .then(response => {
-        console.log(`-- GET 200: /guestbook/add | Submitted successfully`);
+        console.log(`-- POST 200: /guestbook/add | Submitted successfully`);
         res.status(200).send(response);
     })
     .catch(error => {
-        console.log(`-- GET 500: /guestbook/add`);
+        console.log(`-- POST 500: /guestbook/add`);
         res.status(500).send(error);
     });
 });
