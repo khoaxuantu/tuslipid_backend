@@ -10,17 +10,17 @@ const oauth = require('./routers/oauth');
 const app = express();
 const port = parseInt(process.env.PORT) || 3001;
 
-app.use(cors({
-  origin: "https://xuankhoatu.com",
-  methods: "GET,POST,PUT,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type,Access-Control-Allow-Headers,Authorization"
-}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: ["http://localhost:3000", "https://xuankhoatu.com"],
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Authorization"
+}));
 // app.use(function (req, res, next) {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     res.setHeader('Access-Control-Allow-Origin', 'https://xuankhoatu.com');
 //     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Access-Control-Allow-Headers,Authorization');
 //     next();
 //   });
 
